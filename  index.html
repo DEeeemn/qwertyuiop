@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерьер. — Магазин мебели</title>
+    <style>
+        /* 1. СТИЛИ (CSS) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        header {
+            height: 90vh;
+            /* Используем относительный путь к фону */
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), 
+                        url('images/bg.jpg') no-repeat center center/cover;
+            color: white;
+            padding: 40px 10%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 40px;
+            font-size: 14px;
+        }
+
+        .hero-content {
+            margin-top: auto;
+            margin-bottom: auto;
+            max-width: 700px;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .hero-content .cta {
+            color: white;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+
+        /* Сетка каталога */
+        .container {
+            padding: 80px 10%;
+        }
+
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 50px;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px 30px;
+        }
+
+        .product-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .product-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            background-color: #f5f5f5; /* Заглушка, если фото не загрузится */
+        }
+
+        .product-card h3 {
+            font-size: 18px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .product-card p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #f9f9f9;
+            padding: 60px 10%;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Интерьер.</div>
+            <div class="nav-links">
+                <a href="#catalog">Каталог</a>
+                <a href="#">Корзина</a>
+            </div>
+        </nav>
+        <div class="hero-content">
+            <h1>Всё, чего заслуживает ваш дом</h1>
+            <p>Наша мебель — ваше отражение</p>
+            <a href="#catalog" class="cta">Перейти в каталог</a>
+        </div>
+    </header>
+
+    <main class="container" id="catalog">
+        <h2 class="section-title">Каталог товаров</h2>
+        <div class="catalog-grid" id="product-list">
+            </div>
+    </main>
+
+    <footer>
+        <p>Сайт был сверстан Романостью Ефимовой</p>
+    </footer>
+
+    <script>
+        const products = [
+            {
+                name: "Кровать TATRAN",
+                description: "Основание из полированной нержавеющей стали, придает оригинальный парящий эффект.",
+                price: "120 000 руб.",
+                image: "images/1.jpg"
+            },
+            {
+                name: "Кресло VILORA",
+                description: "Мягкое и уютное, аккуратное и стильное. Упругие подушки сиденья и приятная на ощупь ткань.",
+                price: "21 000 руб.",
+                image: "images/2.jpg"
+            },
+            {
+                name: "Стол MENU",
+                description: "Для того чтобы трапезничать было приятно, необходим правильный обеденный стол.",
+                price: "34 000 руб.",
+                image: "images/3.jpg"
+            },
+            {
+                name: "Кресло ASKESTA",
+                description: "Высокоэластичный пенополиуретан в «начинке» кресла надежен и долговечен.",
+                price: "68 000 руб.",
+                image: "images/4.jpg"
+            },
+            {
+                name: "Стол NORMAN",
+                description: "Прекрасно переносит солнечные лучи, перепады влажности и любые осадки.",
+                price: "40 000 руб.",
+                image: "images/5.jpg"
+            },
+            {
+                name: "Диван NASTAN",
+                description: "Модель отличается простотой линий и форм, отсутствием броского декора.",
+                price: "80 000 руб.",
+                image: "images/6.jpg"
+            }
+        ];
+
+        const productList = document.getElementById('product-list');
+
+        function initCatalog() {
+            products.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <h3>${item.name}</h3>
+                    <p>${item.description}</p>
+                    <div class="product-price">${item.price}</div>
+                `;
+                productList.appendChild(card);
+
+                // Эффект плавного появления
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, index * 100);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', initCatalog);
+    </script>
+</body>
+</html>
